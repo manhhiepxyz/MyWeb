@@ -59,6 +59,24 @@ namespace MyWeb
             cmd.ExecuteNonQuery();
             conn.Close();
         }
+        public List<Category> listCategory()
+        {
+            List<Category> listCategory = new List<Category>();
+            string sql = "SELECT id, name FROM tblcategory";
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            SqlDataReader rd = cmd.ExecuteReader();
+            while (rd.Read())
+            {
+                Category category = new Category();
+                category.id = (int)rd["id"];
+                category.name = (string)rd["name"];
+                listCategory.Add(category);
+            }
+            conn.Close();
+            return listCategory;
+        }
+
         //public List<Order> listOrder()
         //{
         //    List<Order> listOrder = new List<Order>();
