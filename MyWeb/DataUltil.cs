@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Web;
 using MyWeb.Model;
 
@@ -76,7 +77,34 @@ namespace MyWeb
             conn.Close();
             return listCategory;
         }
-
+        public void deleteProduct(int productId)
+        {
+            conn.Open();
+            string sql = "Delete from tblproduct where id=@id";
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("id", productId);
+            conn.Close();
+            cmd.ExecuteNonQuery();
+        }
+        public void updateProduct(Product p)
+        {
+            conn.Open();
+            string sql = "Update tblproduct set name=@name, image=@image , " +
+                "price=@price , totalpage=@totalpage , description=@description , " +
+                "author=@author , quantity=@quantity , category=@category " +
+                " where id=@id";
+            SqlCommand cmd= new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("name", p.name);
+            cmd.Parameters.AddWithValue("image", p.image);
+            cmd.Parameters.AddWithValue("price", p.price);
+            cmd.Parameters.AddWithValue("totalpage", p.totalpage);
+            cmd.Parameters.AddWithValue("description", p.description);
+            cmd.Parameters.AddWithValue("author", p.author);
+            cmd.Parameters.AddWithValue("quantity", p.quantity);
+            cmd.Parameters.AddWithValue("category", p.idCategory);
+            cmd.ExecuteNonQuery();
+            conn.Close() ;
+        }
         //public List<Order> listOrder()
         //{
         //    List<Order> listOrder = new List<Order>();

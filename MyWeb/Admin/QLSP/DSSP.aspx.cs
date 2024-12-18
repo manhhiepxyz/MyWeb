@@ -42,15 +42,36 @@ namespace MyWeb.Admin.QLSP
                     <td>{product.author}</td>
                     <td>{product.categoryName}</td>
                     <td>{product.quantity}</td>
-                    <td><a href='Detail.aspx?id={product.id}' class='btn btn-outline-primary'>Xem</a></td>
-                    <td><a href='Edit.aspx?id={product.id}' class='btn btn-outline-primary'>Sửa</a></td>
-                    <td><a href='Delete.aspx?id={product.id}' class='btn btn-outline-danger'>Xóa</a></td>
+                    <td>
+                        
+                    </td>   
+
                 </tr>";
             }
             tableBody.InnerHtml = tableContent;
         }
+        protected void EditProduct(int id)
+        {
+            // Chuyển hướng tới trang sửa sản phẩm, truyền id sản phẩm qua query string
+            Response.Redirect($"~/Admin/QLSP/EditProduct.aspx?id={id}");
+        }
+        protected void DeleteProduct(int id)    
+        {
+            try
+            {
+                data.deleteProduct(id); // Giả sử bạn đã có hàm này trong lớp `DataUltil`
+                LoadProducts(); // Refresh lại danh sách sản phẩm
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi, nếu có
+                Console.WriteLine($"Error deleting product: {ex.Message}");
+            }
+        }
 
-      
+        protected void Xoa_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 }

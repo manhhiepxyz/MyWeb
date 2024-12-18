@@ -33,14 +33,15 @@
                           <td>Nguyễn Thanh Hải</td>
                           <td>Học là nhót</td>
                           <td>Cháy hàng</td>
-                          <td><a href="" class="btn btn-outline-primary">Xem</a></td>
-                          <td><a href="" class="btn btn-outline-primary">Sửa</a></td>
-                          <td><a href="" class="btn btn-outline-danger">Xóa</a></td>
+                          <td>
+                                <asp:Button ID="xoa" CommandArgument='<%# Bind("id") %>' Text="Xóa" OnCommand ="Xoa_Click" runat="server" OnClick="Xoa_Click" />
+                           </td>   
                         </tr>
                       </tbody>
                     </table>
                 </div>
                 </div>
+                <asp:Label ID="msg" runat="server" Font-Italic="true"/>
             </div>
           </main>
 
