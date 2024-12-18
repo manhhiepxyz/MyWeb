@@ -40,18 +40,14 @@ namespace MyWeb.Admin.QLSP
                     <td>{product.totalpage}</td>
                     <td>{product.description}</td>
                     <td>{product.author}</td>
-                    <td>{GetCategoryName(product.idCategory)}</td>
-                    <td>{}</td>
+                    <td>{product.categoryName}</td>
+                    <td>{product.quantity}</td>
                     <td><a href='Detail.aspx?id={product.id}' class='btn btn-outline-primary'>Xem</a></td>
                     <td><a href='Edit.aspx?id={product.id}' class='btn btn-outline-primary'>Sửa</a></td>
                     <td><a href='Delete.aspx?id={product.id}' class='btn btn-outline-danger'>Xóa</a></td>
                 </tr>";
             }
             tableBody.InnerHtml = tableContent;
-        }
-        private string GetCategoryName(int categoryId)
-        {
-
         }
 
       

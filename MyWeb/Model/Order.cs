@@ -12,7 +12,6 @@ namespace MyWeb.Model
         public double totalPrice { get; set; }
         public int paymentId { get; set; }
         public int shipmentId { get; set; }
-
         public Order() { }
 
         public Order(int id, int userId, double totalPrice, int paymentId, int shipmentId)

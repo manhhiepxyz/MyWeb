@@ -31,7 +31,7 @@
           <div class="sidebar-logo">
             <a href="index.html"
               ><img
-                src="../image/logo.jpg"
+                src="<%= ResolveUrl("~/Image/logo.jpg") %>"
                 alt="Lối"
                 style="height: 50px; width: 50px; border-radius: 10px"
             /></a>
@@ -112,7 +112,7 @@
               <li class="nav-item dropdown">
                 <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0">
                   <img
-                    src="../image/logo.jpg"
+                    src="<%= ResolveUrl("~/Image/peace.jpg") %>"
                     class="avatar img-fluid rounded"
                     alt=""
                   />

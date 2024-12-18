@@ -18,7 +18,7 @@
                             <th scope="col" style="width: 20%;">Mô tả</th>
                             <th scope="col" style="width: 10%;">Tác giả</th>
                             <th scope="col" style="width: 10%;">Thể loại</th>
-                            <th scope="col" style="width: 10%;">Trạng thái</th>
+                            <th scope="col" style="width: 10%;">Số lượng</th>
                             <th colspan="3" scope="col" style="width: 15%;" class="text-center">Chỉnh sửa</th>
                           </tr>
                       </thead>

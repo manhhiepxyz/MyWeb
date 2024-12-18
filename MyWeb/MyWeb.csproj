@@ -74,6 +74,7 @@
     <Content Include="CSS\index.css" />
     <Content Include="CSS\style.css" />
     <Content Include="Image\ai.jpg" />
+    <Content Include="Image\biography.jpg" />
     <Content Include="Image\history.jpg" />
     <Content Include="Image\logo.jpg" />
     <Content Include="Image\novel.jpg" />

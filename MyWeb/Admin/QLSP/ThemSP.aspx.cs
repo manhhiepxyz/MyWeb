@@ -13,5 +13,10 @@ namespace MyWeb.Admin.QLSP
         {
 
         }
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
