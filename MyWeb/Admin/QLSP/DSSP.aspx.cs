@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using MyWeb.Model;
 
@@ -11,67 +8,81 @@ namespace MyWeb.Admin.QLSP
 {
     public partial class DSSP : System.Web.UI.Page
     {
-        DataUltil data= new DataUltil();
+        private readonly DataUltil data = new DataUltil();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 LoadProducts();
             }
-
         }
+
         private void LoadProducts()
         {
-            //Lấy danh sách sản phẩm
+            // Lấy danh sách sản phẩm từ database
             List<Product> products = data.listProduct();
-            string tableContent= string.Empty;
 
-            //Duyệt qua từng sản phẩm
-            foreach (var product in products)
-            {
-                string imageUrl = string.IsNullOrEmpty(product.image) ? "default.jpg" : product.image;
-                string fullImageUrl = ResolveUrl("~/Image/" + imageUrl);
-                tableContent +=$@"
-                <tr>
-                    <th scope='row'>{product.id}</th>
-                    <td><img src='{fullImageUrl}' alt='error' style='height: 50px; width: 50px; border-radius: 10px'></td>
-                    <td>{product.name}</td>
-                    <td>{product.price:N0} VNĐ</td>
-                    <td>{product.totalpage}</td>
-                    <td>{product.description}</td>
-                    <td>{product.author}</td>
-                    <td>{product.categoryName}</td>
-                    <td>{product.quantity}</td>
-                    <td>
-                        
-                    </td>   
-
-                </tr>";
-            }
-            tableBody.InnerHtml = tableContent;
+            // Gán dữ liệu vào Repeater
+            productRepeater.DataSource = products;
+            productRepeater.DataBind();
         }
-        protected void EditProduct(int id)
+
+        protected void EditProduct_Click(object sender, EventArgs e)
         {
-            // Chuyển hướng tới trang sửa sản phẩm, truyền id sản phẩm qua query string
-            Response.Redirect($"~/Admin/QLSP/EditProduct.aspx?id={id}");
+            // Lấy ID từ CommandArgument của Button
+            Button btnEdit = (Button)sender;
+            int productId = int.Parse(btnEdit.CommandArgument);
+
+            // Chuyển hướng sang trang sửa sản phẩm
+            Response.Redirect($"~/Admin/QLSP/Sua.aspx?id={productId}");
         }
-        protected void DeleteProduct(int id)    
+
+        protected void DeleteProduct_Click(object sender, EventArgs e)
         {
             try
             {
-                data.deleteProduct(id); // Giả sử bạn đã có hàm này trong lớp `DataUltil`
-                LoadProducts(); // Refresh lại danh sách sản phẩm
+                Button btn = (Button)sender;
+                int productId = Convert.ToInt32(btn.CommandArgument); // Lấy ID từ CommandArgument
+
+                // Gọi phương thức DeleteProduct để xóa sản phẩm
+                data.DeleteProduct(productId); // Giả sử data là đối tượng DataUltil
+
+                // Reload lại danh sách sản phẩm
+                LoadProducts();
             }
             catch (Exception ex)
             {
-                // Xử lý lỗi, nếu có
-                Console.WriteLine($"Error deleting product: {ex.Message}");
+                // Hiển thị thông báo lỗi nếu có
+                msg.Text = "Error deleting product: " + ex.Message;
             }
         }
 
-        protected void Xoa_Click(object sender, EventArgs e)
+        protected void btnSearch_Click(object sender, EventArgs e)
         {
+            string searchTerm = txtSearch.Text.Trim();
 
+            // Nếu không có từ khóa tìm kiếm, load lại danh sách sản phẩm đầy đủ
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                LoadProducts();
+            }
+            else
+            {
+                // Lọc danh sách sản phẩm dựa trên từ khóa tìm kiếm
+                List<Product> filteredProducts = data.listProduct()
+                    .Where(p => p.name.ToLower().Contains(searchTerm.ToLower())) // Tìm kiếm không phân biệt chữ hoa chữ thường
+                    .ToList();
+
+                // Gán dữ liệu vào Repeater sau khi lọc
+                productRepeater.DataSource = filteredProducts;
+                productRepeater.DataBind();
+            }
+        }
+
+        protected void productRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            // Bạn có thể xử lý các lệnh khác từ Repeater ở đây (nếu cần)
         }
     }
 }

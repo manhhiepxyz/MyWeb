@@ -1,46 +1,108 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Dashboard.Master" AutoEventWireup="true" CodeBehind="DSDonHang.aspx.cs" Inherits="MyWeb.Admin.QLDH.DSDonHang" %>
+﻿<%@ Page Title="Quản lý đơn hàng" Language="C#" MasterPageFile="~/Master/Dashboard.Master" AutoEventWireup="true" CodeBehind="DSDonHang.aspx.cs" Inherits="MyWeb.Admin.QLDH.DSDonHang" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-                    <main class="content px-3 py-2">
-            <div class="container-fluid">
-              <div class="mb-3">
-                <h4>Danh sách đơn hàng</h4>
-              </div>
-              <div class="row">
+    <main class="content px-3 py-2">
+        <div class="container-fluid">
+            <div class="mb-3">
+                <h4>Quản lý đơn hàng</h4>
+            </div>
+            <div class="row">
                 <div class="col-12 d-flex">
-                    <table class="table text-center ">
-                      <thead>
-                        <tr>
-                            <th scope="col" style="width: 5%;">STT</th>
-                            <th scope="col" style="width: 5%;">Sách</th>
-                            <th scope="col" style="width: 15%;">Tên sách</th>
-                            <th scope="col" style="width: 5%;">SL</th>
-                            <th scope="col" style="width: 10%;">Giá</th>
-                            <th scope="col" style="width: 20%;">Địa chỉ nhận</th>
-                            <th scope="col" style="width: 10%;">Người đặt</th>
-                            <th scope="col" style="width: 10%;">Ghi chú</th>
-                            <th scope="col" style="width: 10%;">Trạng thái</th>
-                            <th colspan="3" scope="col" style="width: 15%;" class="text-center">Chỉnh sửa</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td><img src="../image/logo.jpg" alt="loi" style="height: 50px; width: 50px; border-radius: 10px"></td>
-                          <td>Giáo trình trí tuệ nhân tạo</td>
-                          <td>2</td>
-                          <td>80000 VNĐ</td>
-                          <td>Trường ĐH Công Nghiệp Hà Nội</td>
-                          <td>Nguyễn Mạnh Hiệp</td>
-                          <td>Hãy giao hàng sớm nhất cho tôi</td>
-                          <td>Đang vận chuyển</td>
-                          <td><a href="" class="btn btn-outline-primary">Xem</a></td>
-                          <td><a href="" class="btn btn-outline-primary">Sửa</a></td>
-                          <td><a href="" class="btn btn-outline-danger">Xóa</a></td>
-                        </tr>
-                      </tbody>
+                    <table class="table table-bordered">
+                        <thead class="text-center">
+                            <tr>
+                                <th style="width: 5%;">STT</th>
+                                <th style="width: 50%;">Sản phẩm </th>
+                                <th style="width: 15%;">Địa chỉ giao hàng</th>
+                                <th style="width: 10%;">Người đặt</th>
+                                <th style="width: 10%;">Ngày đặt</th>
+                                <th style="width: 10%;">Thanh toán</th>
+                                <th style="width: 10%;">Trạng thái</th>
+                                <th style="width: 15%;">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Đơn hàng 1 -->
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td>
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Tên sách</th>
+                                                <th>SL</th>
+                                                <th>Đơn giá</th>
+                                                <th>Thành tiền</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Giáo trình trí tuệ nhân tạo</td>
+                                                <td>2</td>
+                                                <td>80,000 VNĐ</td>
+                                                <td>160,000 VNĐ</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Xử lý dữ liệu lớn</td>
+                                                <td>1</td>
+                                                <td>100,000 VNĐ</td>
+                                                <td>100,000 VNĐ</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td>Trường ĐH Công Nghiệp Hà Nội</td>
+                                <td>Nguyễn Mạnh Hiệp</td>
+                                <td>20/12/2024</td>
+                                <td>Chuyển khoản</td>
+                                <td>Đang vận chuyển</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-outline-primary btn-sm">Xác nhận</a>
+                                    <a href="#" class="btn btn-outline-danger btn-sm">Xóa</a>
+                                </td>
+                            </tr>
+                            <!-- Đơn hàng 2 -->
+                            <tr>
+                                <td class="text-center">2</td>
+                                <td>
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Tên sách</th>
+                                                <th>SL</th>
+                                                <th>Đơn giá</th>
+                                                <th>Thành tiền</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Lập trình Python cơ bản</td>
+                                                <td>1</td>
+                                                <td>120,000 VNĐ</td>
+                                                <td>120,000 VNĐ</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Machine Learning cơ bản</td>
+                                                <td>3</td>
+                                                <td>150,000 VNĐ</td>
+                                                <td>450,000 VNĐ</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td>Ngõ 102, Đống Đa, Hà Nội</td>
+                                <td>Trần Văn A</td>
+                                <td>18/12/2024</td>
+                                <td>COD</td>
+                                <td>Đã giao</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-outline-primary btn-sm">Xác nhận</a>
+                                    <a href="#" class="btn btn-outline-danger btn-sm">Xóa</a>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
-                </div>
             </div>
-          </main>
+        </div>
+    </main>
 </asp:Content>

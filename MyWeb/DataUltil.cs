@@ -77,34 +77,100 @@ namespace MyWeb
             conn.Close();
             return listCategory;
         }
-        public void deleteProduct(int productId)
+        public void DeleteProduct(int productId)
         {
-            conn.Open();
-            string sql = "Delete from tblproduct where id=@id";
-            SqlCommand cmd = new SqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("id", productId);
-            conn.Close();
-            cmd.ExecuteNonQuery();
+            // Đảm bảo sử dụng using để tự động quản lý kết nối
+            using (SqlConnection conn = new SqlConnection("Data Source=MANHHIEP;Initial Catalog=mydata;Integrated Security=True")) // Chuỗi kết nối cơ sở dữ liệu
+            {
+                try
+                {
+                    conn.Open(); // Mở kết nối
+
+                    // Câu lệnh xóa sản phẩm
+                    string sql = "DELETE FROM tblProduct WHERE id = @id";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        // Thêm tham số để tránh SQL injection
+                        cmd.Parameters.AddWithValue("@id", productId);
+
+                        // Thực thi câu lệnh
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Xử lý lỗi, chẳng hạn như hiển thị thông báo cho người dùng
+                    Console.WriteLine("Error deleting product: " + ex.Message);
+                    // Hoặc bạn có thể ghi log để dễ dàng kiểm tra lỗi
+                }
+            }
         }
+
+
         public void updateProduct(Product p)
         {
             conn.Open();
-            string sql = "Update tblproduct set name=@name, image=@image , " +
-                "price=@price , totalpage=@totalpage , description=@description , " +
-                "author=@author , quantity=@quantity , category=@category " +
-                " where id=@id";
-            SqlCommand cmd= new SqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("name", p.name);
-            cmd.Parameters.AddWithValue("image", p.image);
-            cmd.Parameters.AddWithValue("price", p.price);
-            cmd.Parameters.AddWithValue("totalpage", p.totalpage);
-            cmd.Parameters.AddWithValue("description", p.description);
-            cmd.Parameters.AddWithValue("author", p.author);
-            cmd.Parameters.AddWithValue("quantity", p.quantity);
-            cmd.Parameters.AddWithValue("category", p.idCategory);
+            // Kiểm tra nếu không có ảnh mới thì không cần thay đổi ảnh
+            string sql = "UPDATE tblproduct SET name = @name, price = @price, totalpage = @totalpage, " +
+                         "description = @description, author = @author, category = @category, " +
+                         "quantity = @quantity" +
+                         (string.IsNullOrEmpty(p.image) ? "" : ", image = @image") + // Chỉ cập nhật trường image nếu có ảnh mới
+                         " WHERE id = @id";
+
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@id", p.id);
+            cmd.Parameters.AddWithValue("@name", p.name);
+            cmd.Parameters.AddWithValue("@price", p.price);
+            cmd.Parameters.AddWithValue("@totalpage", p.totalpage);
+            cmd.Parameters.AddWithValue("@description", p.description);
+            cmd.Parameters.AddWithValue("@author", p.author);
+            cmd.Parameters.AddWithValue("@category", p.idCategory);
+            cmd.Parameters.AddWithValue("@quantity", p.quantity);
+
+            // Nếu có ảnh mới, thêm tham số @image
+            if (!string.IsNullOrEmpty(p.image))
+            {
+                cmd.Parameters.AddWithValue("@image", p.image);
+            }
+
             cmd.ExecuteNonQuery();
-            conn.Close() ;
+            conn.Close();
         }
+        public Product GetProductById(int productId)
+        {
+            Product product = null;
+            string sql = "SELECT tblproduct.id AS idProduct, tblproduct.name AS productName, image , price, totalpage, description , author," +
+                         "tblcategory.name AS categoryName, category, quantity FROM tblproduct INNER JOIN tblcategory ON tblproduct.category = tblcategory.id WHERE tblproduct.id = @productId";
+
+            conn.Open();  // Mở kết nối đến cơ sở dữ liệu
+
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@productId", productId); // Thêm tham số để tránh SQL injection
+
+            SqlDataReader rd = cmd.ExecuteReader();
+
+            if (rd.Read())  // Kiểm tra nếu có dữ liệu trả về
+            {
+                product = new Product
+                {
+                    id = (int)rd["idProduct"],
+                    price = (decimal)rd["price"],
+                    name = (string)rd["productName"],
+                    description = (string)rd["description"],
+                    image = (string)rd["image"],
+                    totalpage = (int)rd["totalpage"],
+                    author = (string)rd["author"],
+                    idCategory = (int)rd["category"],
+                    quantity = (int)rd["quantity"],
+                    categoryName = (string)rd["categoryName"]
+                };
+            }
+
+            conn.Close();  // Đóng kết nối
+            return product;  // Trả về sản phẩm hoặc null nếu không tìm thấy
+        }
+
         //public List<Order> listOrder()
         //{
         //    List<Order> listOrder = new List<Order>();

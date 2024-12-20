@@ -62,11 +62,11 @@
                 data-bs-parent="#sidebar"
               >
                 <li class="sidebar-item">
-                  <a href="../QLDH/DSDH.html" class="sidebar-link">
+                  <a href="<%= ResolveUrl("../Admin/QLDH/DSDonHang.aspx") %>" class="sidebar-link">
                     <i class="fa-regular fa-circle me-2"></i>Danh sách đơn hàng</a>
                 </li>
                 <li class="sidebar-item">
-                  <a href="../QLDH/ThemDH.html" class="sidebar-link">
+                  <a href="<%= ResolveUrl("../Admin/QLDH/ThemDH.aspx") %>" class="sidebar-link">
                     <i class="fa-regular fa-circle me-2"></i>Thêm đơn hàng</a>
                 </li>
               </ul>
@@ -87,11 +87,11 @@
                 data-bs-parent="#sidebar"
               >
                 <li class="sidebar-item">
-                  <a href="../QLSP/DSSP.html" class="sidebar-link">
+                  <a href="<%= ResolveUrl("../Admin/QLSP/DSSP.aspx") %>" class="sidebar-link">
                     <i class="fa-regular fa-circle me-2"></i>Danh sách sản phẩm</a>
                 </li>
                 <li class="sidebar-item">
-                  <a href="../QLSP/ThemSP.html" class="sidebar-link">
+                  <a href="<%= ResolveUrl("../Admin/QLSP/ThemSP.aspx") %>" class="sidebar-link">
                     <i class="fa-regular fa-circle me-2"></i>Thêm sản phẩm</a>
                 </li>
 
