@@ -68,7 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\QLDH\DSDonHang.aspx" />
-    <Content Include="Admin\QLDH\ThemDH.aspx" />
     <Content Include="Admin\QLSP\DSSP.aspx" />
     <Content Include="Admin\QLSP\Sua.aspx" />
     <Content Include="Admin\QLSP\ThemSP.aspx" />
@@ -93,13 +92,6 @@
     <Compile Include="Admin\QLDH\DSDonHang.aspx.designer.cs">
       <DependentUpon>DSDonHang.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\QLDH\ThemDH.aspx.cs">
-      <DependentUpon>ThemDH.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\QLDH\ThemDH.aspx.designer.cs">
-      <DependentUpon>ThemDH.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Admin\QLSP\DSSP.aspx.cs">
       <DependentUpon>DSSP.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -123,6 +115,7 @@
     </Compile>
     <Compile Include="DataUltil.cs" />
     <Compile Include="DataUltil\Test.cs" />
+    <Compile Include="DTO\OrderDTO.cs" />
     <Compile Include="Master\Dashboard.Master.cs">
       <DependentUpon>Dashboard.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

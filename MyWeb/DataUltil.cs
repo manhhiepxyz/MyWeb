@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using System.Web;
+using MyWeb.DTO;
 using MyWeb.Model;
 
 namespace MyWeb
@@ -59,6 +63,51 @@ namespace MyWeb
             cmd.Parameters.AddWithValue("@quantity", product.quantity);
             cmd.ExecuteNonQuery();
             conn.Close();
+        }
+        public List<OrderDTO> listOrder()
+        {
+            List<OrderDTO> listOrder = new List<OrderDTO>();
+            string sql = "select tblorder.id AS orderId, tblorder.user_id AS userId, tbluser.name AS username, tblorder.toltalprice AS totalPrice, tblorder.dateCreate AS date, " +
+                " tblorder.payment_id AS paymentId, tblpayment.amount AS amount, tblorder.shipment_id AS shipmentId,  tblshipment.fullname AS fullName, " +
+                " tblshipment.status AS status, tblshipment.date AS dateShip, tblshipment.phone AS phone, tblshipment.address AS address,  tblorderiteam.id AS orderItemID, " +
+                " tblorderiteam.price AS price, tblorderiteam.product_id AS productID, tblproduct.price AS priceProduct, tblorderiteam.quantity AS quantity, " +
+                " tblproduct.image AS image from tblorder inner join tbluser on tblorder.user_id= tbluser.id " +
+                "inner join tblpayment on tblorder.payment_id = tblpayment.id " +
+                "inner join tblshipment on tblorder.shipment_id " +
+                "inner join tblorderiteam on tblorder.id= tblorderiteam.order_id " +
+                "inner join tblproduct on tblorderiteam.product_id= tblproduct.id";
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            SqlDataReader rd = cmd.ExecuteReader();
+            while (rd.Read()) {
+                OrderDTO order = new OrderDTO
+                {
+                    orderId = (int)rd["orderId"],
+                    userId = (int)rd["userId"],
+                    username = rd["username"].ToString(),
+                    totalPrice = Convert.ToDouble(rd["totalPrice"]),
+                    date = rd["date"].ToString(),
+                    paymentId = (int)rd["paymentId"],
+                    amount = (int)rd["amount"],
+                    shipmentId = (int)rd["shipmentId"],
+                    fullName = rd["fullName"].ToString(),
+                    status = rd["status"].ToString(),
+                    dateShip = rd["dateShip"].ToString(),
+                    phone = rd["phone"].ToString(),
+                    address = rd["address"].ToString(),
+                    orderItemID = (int)rd["orderItemID"],
+                    price = (int)rd["price"],
+                    productID = (int)rd["productID"],
+                    priceProduct = (int)rd["priceProduct"],
+                    quantity = (int)rd["quantity"],
+                    image = rd["image"].ToString()
+                };
+                listOrder.Add(order);
+            }
+            rd.Close();
+            conn.Close( );
+
+            return listOrder;
         }
         public List<Category> listCategory()
         {
