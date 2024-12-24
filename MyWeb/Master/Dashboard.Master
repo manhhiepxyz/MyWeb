@@ -45,11 +45,11 @@
             <li class="sidebar-header">Admin</li>
             <li class="sidebar-item">
               <a href="#" class="sidebar-link collapsed">
-                <i class="fa-solid fa-chart-bar pe-2"></i>Thống kê</a>
+                <i class="fa-solid fa-chart-line  pe-2"></i>Thống kê</a>
             </li>
               <li class="sidebar-item">
               <a href="<%= ResolveUrl("../Admin/QLDH/DSDonHang.aspx") %>" class="sidebar-link collapsed">
-                <i class="fa-solid fa-chart-bar pe-2"></i>Quản lý đơn hàng</a>
+                <i class="fa-solid fa-receipt pe-2"></i>Quản lý đơn hàng</a>
             </li>
             <li class="sidebar-item">
               <a
@@ -58,7 +58,7 @@
                 data-bs-target="#page2"
                 data-bs-toggle="collapse"
                 aria-expanded="false"
-                ><i class="fa-solid fa-box pe-2"></i>
+                ><i class="fa-solid fa-bookmark pe-2"></i>
                 Quản lý sản phẩm  
               </a>
               <ul
@@ -80,7 +80,7 @@
               <!--aaaaaaaaaaaaa-->
             <li class="sidebar-item">
               <a href="<%= ResolveUrl("../Admin/QLDM/QLDM.aspx") %>" class="sidebar-link collapsed">
-                <i class="fa-solid fa-chart-bar pe-2"></i>Quản lý danh mục</a>
+                <i class="fa-solid fa-layer-group pe-2"></i>Quản lý danh mục</a>
             </li>
             <li class="sidebar-item">
               <a
@@ -89,7 +89,7 @@
                 data-bs-target="#page3"
                 data-bs-toggle="collapse"
                 aria-expanded="false"
-                ><i class="fa-solid fa-box pe-2"></i>
+                ><i class="fa-solid fa-user pe-2"></i>
                 Quản lý tài khoản
               </a>
               <ul
