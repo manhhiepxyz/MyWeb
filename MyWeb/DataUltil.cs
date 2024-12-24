@@ -8,6 +8,7 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Web;
+using System.Web.Security;
 using MyWeb.DTO;
 using MyWeb.Model;
 
@@ -25,7 +26,7 @@ namespace MyWeb
         public List<Product> listProduct()
         {
             List<Product> listProduct = new List<Product>();
-            string sql = "SELECT tblproduct.id AS idProduct, tblproduct.name AS productName, image , price, totalpage, description , author," +
+            string sql = "SELECT tblproduct.id AS idProduct, tblproduct.name AS productName, tblproduct.image , price, totalpage, description , author," +
                 "tblcategory.name AS categoryName, category, quantity FROM tblproduct INNER JOIN tblcategory ON tblproduct.category = tblcategory.id";
             conn.Open();
             SqlCommand cmd = new SqlCommand(sql, conn);
@@ -93,6 +94,114 @@ namespace MyWeb
 
             return listOrder;
         }
+
+        public List<User> listUser()
+        {      
+            List<User> listUser = new List<User>();
+            string sql = "select tbluser.id as userid, pass, tbluser.name as username, fullname, " +
+                "email, phone, address, tblrole.name as rolename " +
+                " from tbluser inner join tblrole on tbluser.role= tblrole.id";
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            SqlDataReader rd = cmd.ExecuteReader();
+            while (rd.Read()) {
+                User user = new User();
+                user.id=(int)rd["userid"];
+                user.pass = (string)rd["pass"];
+                user.userName=(string)rd["username"];
+                user.address=(string)rd["address"];
+                user.email=(string)rd["email"];
+                user.fullName = (string)rd["fullname"];
+                user.phone = (string)rd["phone"];
+                user.roleName = (string)rd["rolename"];
+                listUser.Add(user);
+            }
+            conn.Close();
+            return listUser;
+
+
+        }
+        public void addUser(User user)
+        {
+            // Kiểm tra sự tồn tại của username
+            string checkSql = "SELECT COUNT(*) FROM tbluser WHERE name = @username";
+            conn.Open();
+            SqlCommand checkCmd = new SqlCommand(checkSql, conn);
+            checkCmd.Parameters.AddWithValue("@username", user.userName);
+
+            int count = (int)checkCmd.ExecuteScalar();
+            if (count > 0)
+            {
+                conn.Close();
+                throw new Exception("Username đã tồn tại. Vui lòng chọn tên khác.");
+            }
+
+            // Nếu không tồn tại, thêm người dùng mới
+            string sql = "INSERT INTO tbluser (name, pass, fullname, email, phone, address, role) " +
+                         "VALUES (@username, @pass, @fullname, @email, @phone, @address, @role)";
+            SqlCommand cmd = new SqlCommand(sql, conn);
+
+            cmd.Parameters.AddWithValue("@username", user.userName);
+            cmd.Parameters.AddWithValue("@pass", "abc123"); // Mật khẩu mặc định
+            cmd.Parameters.AddWithValue("@fullname", user.fullName);
+            cmd.Parameters.AddWithValue("@email", user.email);
+            cmd.Parameters.AddWithValue("@phone", user.phone);
+            cmd.Parameters.AddWithValue("@address", user.address);
+            cmd.Parameters.AddWithValue("@role", user.role);
+
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void updateUser(User user)
+        {
+            conn.Open();
+            string sql = "UPDATE tbluser SET fullname = @fullname, email = @email, " +
+                            "phone = @phone, address = @address, role = @role WHERE id = @id";
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@fullname", user.fullName);
+            cmd.Parameters.AddWithValue("@email", user.email);
+            cmd.Parameters.AddWithValue("@phone", user.phone);
+            cmd.Parameters.AddWithValue("@address", user.address);
+            cmd.Parameters.AddWithValue("@role", user.role);
+            cmd.Parameters.AddWithValue("@id", user.id);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+        public void deleteUser(int userId)
+        {
+            conn.Open();
+            string sql = "delete from tbluser where id = @id";
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("id", userId);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+        public User getUserById(int userId)
+        {
+            User user = null;
+            string sql = "SELECT tbluser.id as userid, tbluser.name as username, pass, fullname, email, phone, address, role, tblrole.name as roleName FROM tbluser inner join tblrole on tbluser.role=tblrole.id WHERE tbluser.id = @id";
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@id", userId);
+            SqlDataReader rd = cmd.ExecuteReader();
+            if (rd.Read())
+            {
+                user = new User();
+                user.id = (int)rd["userid"];
+                user.userName = (string)rd["username"];
+                user.pass = (string)rd["pass"];
+                user.fullName = (string)rd["fullname"];
+                user.email = (string)rd["email"];
+                user.phone = (string)rd["phone"];
+                user.address = (string)rd["address"];
+                user.role = (int)rd["role"];
+                user.roleName = (string)rd["roleName"];
+            }
+            conn.Close();
+            return user;
+        }
         public OrderDTO GetOrderById(int orderId)
         {
             OrderDTO order = null;
@@ -154,7 +263,7 @@ namespace MyWeb
         public List<Category> listCategory()
         {
             List<Category> listCategory = new List<Category>();
-            string sql = "SELECT id, name FROM tblcategory";
+            string sql = "SELECT id, name , image FROM tblcategory";
             conn.Open();
             SqlCommand cmd = new SqlCommand(sql, conn);
             SqlDataReader rd = cmd.ExecuteReader();
@@ -163,10 +272,48 @@ namespace MyWeb
                 Category category = new Category();
                 category.id = (int)rd["id"];
                 category.name = (string)rd["name"];
+                category.image= (string)rd["image"];
                 listCategory.Add(category);
             }
             conn.Close();
             return listCategory;
+        }
+        public void addCategory(Category category)
+        {
+            conn.Open();
+            string sql = "insert into tblcategory (image, name) values (@image, @name)";
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@image",category.image);
+            cmd.Parameters.AddWithValue("@name",category.name);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+        public void updateCategory(Category c)
+        {
+            conn.Open();
+            string sql = "update tblcategory set name=@name " + (string.IsNullOrEmpty(c.image) ? "" : ", image = @image") + " where id= @id";
+            SqlCommand cmd= new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@id", c.id);
+            cmd.Parameters.AddWithValue("@name", c.name);
+            // Nếu có ảnh mới, thêm tham số @image
+            if (!string.IsNullOrEmpty(c.image))
+            {
+                cmd.Parameters.AddWithValue("@image", c.image);
+            }
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+        }
+        public void deleteCategory(int categoryId)
+        {
+            conn.Open();
+            string sql = "delete from tblcategory where id = @id";
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("id", categoryId);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
         }
         public void DeleteProduct(int productId)
         {
@@ -178,6 +325,8 @@ namespace MyWeb
             cmd.ExecuteNonQuery();
             conn.Close() ;
         }
+       
+
         public void DeleteOrder(int orderID)
         {
             conn.Open();
@@ -198,7 +347,6 @@ namespace MyWeb
                 cmd.ExecuteNonQuery();
                 conn.Close();
         }
-
 
         public void updateProduct(Product p)
         {
@@ -229,16 +377,35 @@ namespace MyWeb
             cmd.ExecuteNonQuery();
             conn.Close();
         }
+        public Category getCategoryById(int categoryId)
+        {
+            Category category = null;
+            string sql = "select id, name, image from tblcategory where id=@id";
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@id", categoryId);
+            SqlDataReader rd = cmd.ExecuteReader();
+            if (rd.Read())
+            {
+                category = new Category();
+                category.id = (int)rd["id"];
+                category.name = (string)rd["name"];
+                category.image = (string)rd["image"];
+            }
+            conn.Close();
+            return category;
+
+        }
         public Product GetProductById(int productId)
         {
             Product product = null;
-            string sql = "SELECT tblproduct.id AS idProduct, tblproduct.name AS productName, image , price, totalpage, description , author," +
+            string sql = "SELECT tblproduct.id AS idProduct, tblproduct.name AS productName, tblproduct.image , price, totalpage, description , author," +
                          "tblcategory.name AS categoryName, category, quantity FROM tblproduct INNER JOIN tblcategory ON tblproduct.category = tblcategory.id WHERE tblproduct.id = @productId";
 
             conn.Open();  // Mở kết nối đến cơ sở dữ liệu
 
             SqlCommand cmd = new SqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@productId", productId); // Thêm tham số để tránh SQL injection
+            cmd.Parameters.AddWithValue("@productId", productId); 
 
             SqlDataReader rd = cmd.ExecuteReader();
 
@@ -262,6 +429,26 @@ namespace MyWeb
             conn.Close();  // Đóng kết nối
             return product;  // Trả về sản phẩm hoặc null nếu không tìm thấy
         }
+        public List<Role> GetAllRoles()
+        {
+            List<Role> roles = new List<Role>();
+            string sql = "select id, name from tblrole";
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            SqlDataReader rd = cmd.ExecuteReader();
+            while (rd.Read())
+            {
+                Role role = new Role();
+                role.id = (int)rd["id"];
+                role.name = (string)rd["name"];
+                roles.Add(role);
+            }
+            conn.Close();
+            return roles;
+        }
+
+
+
 
 
     }

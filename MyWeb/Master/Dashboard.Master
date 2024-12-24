@@ -47,30 +47,9 @@
               <a href="#" class="sidebar-link collapsed">
                 <i class="fa-solid fa-chart-bar pe-2"></i>Thống kê</a>
             </li>
-            <li class="sidebar-item">
-              <a
-                href="#"
-                class="sidebar-link collapsed"
-                data-bs-target="#page1"
-                data-bs-toggle="collapse"
-                aria-expanded="false"
-                ><i class="fa-solid fa-clipboard-check pe-2"></i>
-                Quản lý đơn hàng
-              </a>
-              <ul
-                id="page1"
-                class="sidebar-dropdown list-unstyled collapse"
-                data-bs-parent="#sidebar"
-              >
-                <li class="sidebar-item">
-                  <a href="<%= ResolveUrl("../Admin/QLDH/DSDonHang.aspx") %>" class="sidebar-link">
-                    <i class="fa-regular fa-circle me-2"></i>Danh sách đơn hàng</a>
-                </li>
-                <li class="sidebar-item">
-                  <a href="<%= ResolveUrl("../Admin/QLDH/ThemDH.aspx") %>" class="sidebar-link">
-                    <i class="fa-regular fa-circle me-2"></i>Thêm đơn hàng</a>
-                </li>
-              </ul>
+              <li class="sidebar-item">
+              <a href="<%= ResolveUrl("../Admin/QLDH/DSDonHang.aspx") %>" class="sidebar-link collapsed">
+                <i class="fa-solid fa-chart-bar pe-2"></i>Quản lý đơn hàng</a>
             </li>
             <li class="sidebar-item">
               <a
@@ -98,6 +77,40 @@
 
               </ul>
             </li>
+              <!--aaaaaaaaaaaaa-->
+            <li class="sidebar-item">
+              <a href="<%= ResolveUrl("../Admin/QLDM/QLDM.aspx") %>" class="sidebar-link collapsed">
+                <i class="fa-solid fa-chart-bar pe-2"></i>Quản lý danh mục</a>
+            </li>
+            <li class="sidebar-item">
+              <a
+                href="#"
+                class="sidebar-link collapsed"
+                data-bs-target="#page3"
+                data-bs-toggle="collapse"
+                aria-expanded="false"
+                ><i class="fa-solid fa-box pe-2"></i>
+                Quản lý tài khoản
+              </a>
+              <ul
+                id="page3"
+                class="sidebar-dropdown list-unstyled collapse"
+                data-bs-parent="#sidebar"
+              >
+                <li class="sidebar-item">
+                  <a href="<%= ResolveUrl("../Admin/QLTK/QLTaiKhoan.aspx") %>" class="sidebar-link">
+                    <i class="fa-regular fa-circle me-2"></i>Danh sách tài khoản</a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="<%= ResolveUrl("../Admin/QLTK/AddUser.aspx") %>" class="sidebar-link">
+                    <i class="fa-regular fa-circle me-2"></i>Tạo tài khoản</a>
+                </li>
+
+              </ul>
+            </li>
+
+
+
           </ul>
           
         </div>

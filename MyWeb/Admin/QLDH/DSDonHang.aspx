@@ -7,24 +7,22 @@
             <div class="mb-4">
                 <h4 class="text-primary">Quản lý đơn hàng</h4>
             </div>
-
             <!-- Thanh tìm kiếm và bộ lọc -->
             <div class="row mb-3">
-                <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm đơn hàng...">
-                </div>
                 <div class="col-md-3">
-                    <select class="form-select">
+                    <select class="form-select" id="ddlStatuFilter" runat="server">
                         <option value="">Tất cả trạng thái</option>
-                        <option value="pending">Chờ xử lý</option>
-                        <option value="completed">Hoàn thành</option>
-                        <option value="cancelled">Đã hủy</option>
+                        <option value="Chờ xử lý">Chờ xử lý</option>
+                        <option value="Hoàn thành">Hoàn thành</option>
+                        <option value="Đã hủy">Đã hủy</option>
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <button class="btn btn-primary w-100">Lọc</button>
+                    <button class="btn btn-primary w-100" runat="server" OnClick="FilterOrders_Click">Lọc</button>
                 </div>
             </div>
+
+
 
             <!-- Danh sách đơn hàng -->
             <div class="row">
@@ -69,10 +67,12 @@
                                         CssClass="btn btn-sm btn-warning" CommandName="UpdateStatus"
                                         CommandArgument='<%# Eval("orderId") %>' OnClick="UpdateStatus_Click" />
                                     </button>
+                                    <!--
                                     <asp:Button ID="Button1" runat="server" Text="Xóa"
                                         CssClass="btn btn-sm btn-danger" CommandName="DeleteOrder"
                                         CommandArgument='<%# Eval("orderId") %>' OnClick="DeleteOrder_Click" />
                                     </button>
+                                        -->
                                 </td>
                              </tr>
                        </ItemTemplate>
@@ -87,19 +87,7 @@
             </div>
 
             <!-- Phân trang -->
-            <div class="row mt-3">
-                <div class="col-12 d-flex justify-content-center">
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Trước</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Tiếp</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+
         </div>
     </main>
 

@@ -68,10 +68,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\QLDH\DSDonHang.aspx" />
+    <Content Include="Admin\QLDH\WebForm2.aspx" />
     <Content Include="Admin\QLDH\XemDonHang.aspx" />
+    <Content Include="Admin\QLDM\AddCategory.aspx" />
+    <Content Include="Admin\QLDM\QLDM.aspx" />
+    <Content Include="Admin\QLDM\UpdateCategory.aspx" />
     <Content Include="Admin\QLSP\DSSP.aspx" />
     <Content Include="Admin\QLSP\Sua.aspx" />
     <Content Include="Admin\QLSP\ThemSP.aspx" />
+    <Content Include="Admin\QLTK\AddUser.aspx" />
+    <Content Include="Admin\QLTK\QLTaiKhoan.aspx" />
+    <Content Include="Admin\QLTK\Sua.aspx" />
     <Content Include="CSS\index.css" />
     <Content Include="CSS\style.css" />
     <Content Include="CSS\thongke.css" />
@@ -94,12 +101,40 @@
     <Compile Include="Admin\QLDH\DSDonHang.aspx.designer.cs">
       <DependentUpon>DSDonHang.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\QLDH\WebForm2.aspx.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\QLDH\WebForm2.aspx.designer.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\QLDH\XemDonHang.aspx.cs">
       <DependentUpon>XemDonHang.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Admin\QLDH\XemDonHang.aspx.designer.cs">
       <DependentUpon>XemDonHang.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\QLDM\AddCategory.aspx.cs">
+      <DependentUpon>AddCategory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\QLDM\AddCategory.aspx.designer.cs">
+      <DependentUpon>AddCategory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\QLDM\QLDM.aspx.cs">
+      <DependentUpon>QLDM.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\QLDM\QLDM.aspx.designer.cs">
+      <DependentUpon>QLDM.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\QLDM\UpdateCategory.aspx.cs">
+      <DependentUpon>UpdateCategory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\QLDM\UpdateCategory.aspx.designer.cs">
+      <DependentUpon>UpdateCategory.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\QLSP\DSSP.aspx.cs">
       <DependentUpon>DSSP.aspx</DependentUpon>
@@ -121,6 +156,27 @@
     </Compile>
     <Compile Include="Admin\QLSP\ThemSP.aspx.designer.cs">
       <DependentUpon>ThemSP.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\QLTK\AddUser.aspx.cs">
+      <DependentUpon>AddUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\QLTK\AddUser.aspx.designer.cs">
+      <DependentUpon>AddUser.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\QLTK\QLTaiKhoan.aspx.cs">
+      <DependentUpon>QLTaiKhoan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\QLTK\QLTaiKhoan.aspx.designer.cs">
+      <DependentUpon>QLTaiKhoan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\QLTK\Sua.aspx.cs">
+      <DependentUpon>Sua.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\QLTK\Sua.aspx.designer.cs">
+      <DependentUpon>Sua.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataUltil.cs" />
     <Compile Include="DataUltil\Test.cs" />
@@ -157,7 +213,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Admin\NewFolder1\" />
     <Folder Include="Admin\ThongKe\" />
     <Folder Include="App_code\" />
     <Folder Include="App_data\" />

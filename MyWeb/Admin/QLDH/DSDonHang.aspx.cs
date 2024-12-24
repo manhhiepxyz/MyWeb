@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using MyWeb.DTO;
@@ -50,6 +51,31 @@ namespace MyWeb.Admin.QLDH
                 ShowErrorMessage($"Lỗi khi tải đơn hàng: {ex.Message}");
             }
         }
+        protected void FilterOrders_Click(object sender, EventArgs e)
+        {
+            // Lấy trạng thái được chọn từ dropdown
+            string statusFilter = ddlStatuFilter.Value; // Dùng SelectedValue thay vì Value
+
+            // Nếu không chọn trạng thái nào (trạng thái mặc định "Tất cả trạng thái"), thì tải lại tất cả đơn hàng
+            if (string.IsNullOrEmpty(statusFilter))
+            {
+                LoadOrders(); // Load tất cả đơn hàng nếu không có trạng thái nào được chọn
+            }
+            else
+            {
+                // Lọc các đơn hàng theo trạng thái đã chọn
+                List<OrderDTO> filteredOrders = data.listOrder()
+                    .Where(order => order.status.Equals(statusFilter, StringComparison.OrdinalIgnoreCase)) // So sánh không phân biệt chữ hoa chữ thường
+                    .ToList();
+
+                // Gán danh sách đơn hàng đã lọc vào Repeater và cập nhật giao diện
+                OrdersRepeater.DataSource = filteredOrders;
+                OrdersRepeater.DataBind();
+            }
+        }
+
+
+
 
 
         protected void ViewOrder_Click(object sender, EventArgs e)
@@ -117,5 +143,6 @@ namespace MyWeb.Admin.QLDH
         {
             Response.Write($"<script>alert('{message}');</script>");
         }
+
     }
 }

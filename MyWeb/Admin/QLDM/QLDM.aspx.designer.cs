@@ -7,29 +7,38 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MyWeb.Admin.QLDH
+namespace MyWeb.Admin.QLDM
 {
 
 
-    public partial class DSDonHang
+    public partial class WebForm1
     {
 
         /// <summary>
-        /// ddlStatuFilter control.
+        /// btnAddCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlSelect ddlStatuFilter;
+        protected global::System.Web.UI.WebControls.Button btnAddCategory;
 
         /// <summary>
-        /// OrdersRepeater control.
+        /// categoryRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater OrdersRepeater;
+        protected global::System.Web.UI.WebControls.Repeater categoryRepeater;
+
+        /// <summary>
+        /// msg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label msg;
     }
 }
