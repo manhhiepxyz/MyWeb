@@ -42,20 +42,38 @@ namespace MyWeb.Admin.QLSP
         {
             try
             {
-                Button btn = (Button)sender;
-                int productId = Convert.ToInt32(btn.CommandArgument); // Lấy ID từ CommandArgument
+                Button btnDeleteProduct = (Button)sender;
+                string commandArg = btnDeleteProduct.CommandArgument;
 
-                // Gọi phương thức DeleteProduct để xóa sản phẩm
-                data.DeleteProduct(productId); // Giả sử data là đối tượng DataUltil
+                if (!string.IsNullOrEmpty(commandArg))
+                {
+                    int productId = Convert.ToInt32(commandArg);
 
-                // Reload lại danh sách sản phẩm
-                LoadProducts();
+                    // Gọi phương thức DeleteProduct để xóa sản phẩm
+                    data.DeleteProduct(productId);
+                    // Reload lại danh sách sản phẩm
+                    LoadProducts();
+                }
+                else
+                {
+                    msg.Text = "Không tìm thấy ID sản phẩm để xóa.";
+                }
             }
             catch (Exception ex)
             {
                 // Hiển thị thông báo lỗi nếu có
                 msg.Text = "Error deleting product: " + ex.Message;
             }
+        }
+        protected string TruncateDescription(string description, int maxLength)
+        {
+            if (string.IsNullOrEmpty(description))
+                return string.Empty;
+
+            if (description.Length <= maxLength)
+                return description;
+
+            return description.Substring(0, maxLength) + "...";
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)

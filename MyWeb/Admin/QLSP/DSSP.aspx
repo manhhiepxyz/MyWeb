@@ -42,7 +42,9 @@
                         <td><%# Eval("name") %></td>
                         <td><%# String.Format("{0:N0} VNĐ", Eval("price")) %></td>
                         <td><%# Eval("totalpage") %></td>
-                        <td><%# Eval("description") %></td>
+                        <td><%# TruncateDescription(Eval("description").ToString(), 50) %>
+                              
+                        </td>
                         <td><%# Eval("author") %></td>
                         <td><%# Eval("categoryName") %></td>
                         <td><%# Eval("quantity") %></td>

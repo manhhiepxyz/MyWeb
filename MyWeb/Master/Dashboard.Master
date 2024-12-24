@@ -21,6 +21,7 @@
     />
     <link rel="stylesheet" href="<%= ResolveUrl("~/CSS/style.css") %>" />
     <link rel="stylesheet" href="<%= ResolveUrl("~/CSS/index.css") %>" />
+    <link rel="stylesheet" href="<%= ResolveUrl("~/CSS/thongke.css") %>" />
   </head>
 
   <body>

@@ -68,11 +68,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\QLDH\DSDonHang.aspx" />
+    <Content Include="Admin\QLDH\XemDonHang.aspx" />
     <Content Include="Admin\QLSP\DSSP.aspx" />
     <Content Include="Admin\QLSP\Sua.aspx" />
     <Content Include="Admin\QLSP\ThemSP.aspx" />
     <Content Include="CSS\index.css" />
     <Content Include="CSS\style.css" />
+    <Content Include="CSS\thongke.css" />
     <Content Include="Image\ai.jpg" />
     <Content Include="Image\biography.jpg" />
     <Content Include="Image\history.jpg" />
@@ -91,6 +93,13 @@
     </Compile>
     <Compile Include="Admin\QLDH\DSDonHang.aspx.designer.cs">
       <DependentUpon>DSDonHang.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\QLDH\XemDonHang.aspx.cs">
+      <DependentUpon>XemDonHang.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\QLDH\XemDonHang.aspx.designer.cs">
+      <DependentUpon>XemDonHang.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\QLSP\DSSP.aspx.cs">
       <DependentUpon>DSSP.aspx</DependentUpon>
@@ -116,6 +125,7 @@
     <Compile Include="DataUltil.cs" />
     <Compile Include="DataUltil\Test.cs" />
     <Compile Include="DTO\OrderDTO.cs" />
+    <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="Master\Dashboard.Master.cs">
       <DependentUpon>Dashboard.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -148,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Admin\NewFolder1\" />
+    <Folder Include="Admin\ThongKe\" />
     <Folder Include="App_code\" />
     <Folder Include="App_data\" />
     <Folder Include="User\" />

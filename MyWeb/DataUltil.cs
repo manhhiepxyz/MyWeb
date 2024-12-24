@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace MyWeb
         SqlConnection conn;
         public DataUltil()
         {
-            string sqlCon = "Data Source=MANHHIEP;Initial Catalog=mydata;Integrated Security=True";
+            string sqlCon = "Data Source=MANHHIEP;Initial Catalog=BookStore;Integrated Security=True";
             conn = new SqlConnection(sqlCon);
 
         }
@@ -67,40 +68,23 @@ namespace MyWeb
         public List<OrderDTO> listOrder()
         {
             List<OrderDTO> listOrder = new List<OrderDTO>();
-            string sql = "select tblorder.id AS orderId, tblorder.user_id AS userId, tbluser.name AS username, tblorder.toltalprice AS totalPrice, tblorder.dateCreate AS date, " +
-                " tblorder.payment_id AS paymentId, tblpayment.amount AS amount, tblorder.shipment_id AS shipmentId,  tblshipment.fullname AS fullName, " +
-                " tblshipment.status AS status, tblshipment.date AS dateShip, tblshipment.phone AS phone, tblshipment.address AS address,  tblorderiteam.id AS orderItemID, " +
-                " tblorderiteam.price AS price, tblorderiteam.product_id AS productID, tblproduct.price AS priceProduct, tblorderiteam.quantity AS quantity, " +
-                " tblproduct.image AS image from tblorder inner join tbluser on tblorder.user_id= tbluser.id " +
+            string sql = "	SELECT tblorder.id as orderid, tblshipment.address as diachi, tbluser.name as username, tblshipment.fullname as nguoidat," +
+                "tblshipment.date as ngaydat, tblshipment.status as trangthai " +
+                "from tblorder inner join tbluser on tblorder.user_id = tbluser.id " +
                 "inner join tblpayment on tblorder.payment_id = tblpayment.id " +
-                "inner join tblshipment on tblorder.shipment_id " +
-                "inner join tblorderiteam on tblorder.id= tblorderiteam.order_id " +
-                "inner join tblproduct on tblorderiteam.product_id= tblproduct.id";
+                "inner join tblshipment on tblorder.shipment_id = tblshipment.id ";
             conn.Open();
             SqlCommand cmd = new SqlCommand(sql, conn);
             SqlDataReader rd = cmd.ExecuteReader();
             while (rd.Read()) {
                 OrderDTO order = new OrderDTO
                 {
-                    orderId = (int)rd["orderId"],
-                    userId = (int)rd["userId"],
-                    username = rd["username"].ToString(),
-                    totalPrice = Convert.ToDouble(rd["totalPrice"]),
-                    date = rd["date"].ToString(),
-                    paymentId = (int)rd["paymentId"],
-                    amount = (int)rd["amount"],
-                    shipmentId = (int)rd["shipmentId"],
-                    fullName = rd["fullName"].ToString(),
-                    status = rd["status"].ToString(),
-                    dateShip = rd["dateShip"].ToString(),
-                    phone = rd["phone"].ToString(),
-                    address = rd["address"].ToString(),
-                    orderItemID = (int)rd["orderItemID"],
-                    price = (int)rd["price"],
-                    productID = (int)rd["productID"],
-                    priceProduct = (int)rd["priceProduct"],
-                    quantity = (int)rd["quantity"],
-                    image = rd["image"].ToString()
+                    orderId = rd["orderid"] != DBNull.Value ? Convert.ToInt32(rd["orderid"]) : 0,
+                    address = rd["diachi"] != DBNull.Value ? rd["diachi"].ToString() : string.Empty,
+                    username = rd["username"] != DBNull.Value ? rd["username"].ToString() : string.Empty,
+                    fullName = rd["nguoidat"] != DBNull.Value ? rd["nguoidat"].ToString() : string.Empty,
+                    date = rd["ngaydat"] != DBNull.Value ? rd["ngaydat"].ToString() : string.Empty,
+                    status = rd["trangthai"] != DBNull.Value ? rd["trangthai"].ToString() : string.Empty
                 };
                 listOrder.Add(order);
             }
@@ -108,6 +92,64 @@ namespace MyWeb
             conn.Close( );
 
             return listOrder;
+        }
+        public OrderDTO GetOrderById(int orderId)
+        {
+            OrderDTO order = null;
+            string sql = "SELECT tblorder.id as orderid, tblshipment.address as diachi, tbluser.name as username, tblshipment.fullname as nguoidat, " +
+                         "tblshipment.date as ngaydat, tblshipment.status as trangthai " +
+                         "FROM tblorder " +
+                         "INNER JOIN tbluser ON tblorder.user_id = tbluser.id " +
+                         "INNER JOIN tblpayment ON tblorder.payment_id = tblpayment.id " +
+                         "INNER JOIN tblshipment ON tblorder.shipment_id = tblshipment.id " +
+                         "WHERE tblorder.id = @idOrder";
+
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@idOrder", orderId);
+
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.Read()) 
+                {
+                    order = new OrderDTO
+                    {
+                        orderId = (int)rd["orderid"],
+                        username=(string)rd["username"],
+                        fullName = (string)rd["nguoidat"],
+                        address = (string)rd["diachi"],
+                        dateShip = ((DateTime)rd["ngaydat"]).ToString("yyyy-MM-dd"),
+                        status = (string)rd["trangthai"],
+                    };
+                }
+                conn.Close();
+
+            return order;
+        }
+
+        public List<ProductDTO> listOrderItem(int orderId)
+        {
+            List<ProductDTO> list = new List<ProductDTO>();
+            string sql = "select tblproduct.image as imageProduct, tblproduct.name as productName, tblorderiteam.quantity as soluong, tblproduct.price as dongia " +
+                "from tblorderiteam " +
+                "inner join tblproduct on tblproduct.id= tblorderiteam.product_id " +
+                "where order_id= @orderId";
+            
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@orderId", orderId);
+            SqlDataReader rd = cmd.ExecuteReader();
+            while (rd.Read())
+            {
+                ProductDTO product = new ProductDTO();
+                product.image = (string)rd["imageProduct"];
+                product.productName=(string)rd["productName"];
+                product.quantity = (int)rd["soluong"];
+                product.donGia = (decimal)rd["dongia"];
+                list.Add(product);
+            }
+            conn.Close();
+            return list;
         }
         public List<Category> listCategory()
         {
@@ -128,32 +170,33 @@ namespace MyWeb
         }
         public void DeleteProduct(int productId)
         {
-            // Đảm bảo sử dụng using để tự động quản lý kết nối
-            using (SqlConnection conn = new SqlConnection("Data Source=MANHHIEP;Initial Catalog=mydata;Integrated Security=True")) // Chuỗi kết nối cơ sở dữ liệu
+            conn.Open(); 
+
+            string sql = "DELETE FROM tblProduct WHERE id = @id";   
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("id",productId);
+            cmd.ExecuteNonQuery();
+            conn.Close() ;
+        }
+        public void DeleteOrder(int orderID)
+        {
+            conn.Open();
+
+            string sql = "DELETE FROM tblProduct WHERE id = @id";
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("id", orderID);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+        public void CapNhapDonHang(string status, int orderId)
             {
-                try
-                {
-                    conn.Open(); // Mở kết nối
-
-                    // Câu lệnh xóa sản phẩm
-                    string sql = "DELETE FROM tblProduct WHERE id = @id";
-
-                    using (SqlCommand cmd = new SqlCommand(sql, conn))
-                    {
-                        // Thêm tham số để tránh SQL injection
-                        cmd.Parameters.AddWithValue("@id", productId);
-
-                        // Thực thi câu lệnh
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Xử lý lỗi, chẳng hạn như hiển thị thông báo cho người dùng
-                    Console.WriteLine("Error deleting product: " + ex.Message);
-                    // Hoặc bạn có thể ghi log để dễ dàng kiểm tra lỗi
-                }
-            }
+                conn.Open();
+                string sql = "update tblshipment set status= @status where id= (SELECT shipment_id FROM tblorder WHERE id = @orderid)";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@status", status);
+                cmd.Parameters.AddWithValue("@orderid", orderId);
+                cmd.ExecuteNonQuery();
+                conn.Close();
         }
 
 
@@ -220,14 +263,6 @@ namespace MyWeb
             return product;  // Trả về sản phẩm hoặc null nếu không tìm thấy
         }
 
-        //public List<Order> listOrder()
-        //{
-        //    List<Order> listOrder = new List<Order>();
-        //    string sql = "";
-        //    SqlCommand cmd = new SqlCommand(sql, conn);
-        //    SqlDataReader rd = cmd.ExecuteReader();
-
-        //}
 
     }
 }
