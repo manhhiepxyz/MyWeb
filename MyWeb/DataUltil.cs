@@ -17,6 +17,8 @@ namespace MyWeb
     public class DataUltil
     {
         SqlConnection conn;
+        public void connect() { 
+        }
         public DataUltil()
         {
             string sqlCon = "Data Source=MANHHIEP;Initial Catalog=BookStore;Integrated Security=True";
@@ -446,10 +448,110 @@ namespace MyWeb
             conn.Close();
             return roles;
         }
+        public decimal GetTongDoanhThu()
+        {
+            decimal tongDoanhThu = 0;
+            string sql = @"SELECT 
+    SUM(tblorderiteam.quantity * tblproduct.price) AS TongDoanhThu
+FROM 
+    tblorderiteam
+INNER JOIN 
+    tblproduct 
+ON 
+    tblorderiteam.product_id = tblproduct.id
+INNER JOIN 
+    tblorder
+ON 
+    tblorderiteam.order_id = tblorder.id
+INNER JOIN 
+    tblshipment 
+ON 
+    tblorder.shipment_id = tblshipment.id
+WHERE 
+    tblshipment.status = N'Hoàn thành'
+";
 
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            object result = cmd.ExecuteScalar();
 
+            if (result != DBNull.Value && result != null)
+            {
+                tongDoanhThu = Convert.ToDecimal(result);
+            }
 
+            conn.Close();
+            return tongDoanhThu;
+        }
 
+        public int GetTongDonHang()
+        {
+            int totalOrders = 0;
+            string sql = "SELECT COUNT(*) FROM tblorder";  
 
+            conn.Open(); 
+
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            totalOrders = (int)cmd.ExecuteScalar();  // ExecuteScalar sẽ trả về giá trị đầu tiên trong kết quả (tổng số đơn hàng)
+
+            conn.Close();  // Đóng kết nối
+
+            return totalOrders;  // Trả về số lượng đơn hàng
+        }
+
+        public string GetSanPhamBanChayNhat()
+        {
+            string bestSellingProduct = string.Empty;
+            string sql = "SELECT TOP 1 tblproduct.name FROM tblproduct " +
+                         "INNER JOIN tblorderiteam ON tblproduct.id = tblorderiteam.product_id " +
+                         "GROUP BY tblproduct.name " +
+                         "ORDER BY SUM(tblorderiteam.quantity) DESC"; 
+
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            SqlDataReader rd = cmd.ExecuteReader();
+            if (rd.Read())
+            {
+                bestSellingProduct = rd["name"].ToString();
+            }
+            conn.Close();
+            return bestSellingProduct;
+        }
+        public int GetDonHangChuaXuLy()
+        {
+            int pendingOrdersCount = 0;
+            string sql = "SELECT COUNT(*) FROM tblshipment WHERE status = 'Chưa xử lý'";  // Assuming 'Pending' is the status for unprocessed orders
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            pendingOrdersCount = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return pendingOrdersCount;
+        }
+        public List<ThongKeDTO> listThongKe()
+        {
+            List<ThongKeDTO> list= new List<ThongKeDTO>();
+            string sql = @"SELECT p.name, 
+                               SUM(od.Quantity) AS QuantitySold, 
+                               SUM(od.Quantity * od.Price) AS Revenue
+                        FROM tblorderiteam od
+                        JOIN tblproduct p ON od.product_id = p.id
+                        GROUP BY p.name
+                        ORDER BY Revenue DESC";
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            SqlDataReader rd = cmd.ExecuteReader();
+            while (rd.Read())
+            {
+                ThongKeDTO thongKeDTO = new ThongKeDTO
+                {
+                    ProductName = rd["name"].ToString(),  // Lấy tên sản phẩm
+                    QuantitySold = Convert.ToInt32(rd["QuantitySold"]), // Lấy số lượng bán
+                    Revenue = Convert.ToDecimal(rd["Revenue"]) // Lấy doanh thu
+                };
+                list.Add(thongKeDTO);
+            }
+            conn.Close();
+            return list;
+        }
     }
 }

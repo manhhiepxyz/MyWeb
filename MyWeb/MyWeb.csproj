@@ -79,6 +79,7 @@
     <Content Include="Admin\QLTK\AddUser.aspx" />
     <Content Include="Admin\QLTK\QLTaiKhoan.aspx" />
     <Content Include="Admin\QLTK\Sua.aspx" />
+    <Content Include="Admin\ThongKe\ThongKeAdmin.aspx" />
     <Content Include="CSS\index.css" />
     <Content Include="CSS\style.css" />
     <Content Include="CSS\thongke.css" />
@@ -178,10 +179,17 @@
     <Compile Include="Admin\QLTK\Sua.aspx.designer.cs">
       <DependentUpon>Sua.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\ThongKe\ThongKeAdmin.aspx.cs">
+      <DependentUpon>ThongKeAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ThongKe\ThongKeAdmin.aspx.designer.cs">
+      <DependentUpon>ThongKeAdmin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DataUltil.cs" />
-    <Compile Include="DataUltil\Test.cs" />
     <Compile Include="DTO\OrderDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
+    <Compile Include="DTO\ThongKeDTO.cs" />
     <Compile Include="Master\Dashboard.Master.cs">
       <DependentUpon>Dashboard.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -213,7 +221,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Admin\ThongKe\" />
     <Folder Include="App_code\" />
     <Folder Include="App_data\" />
     <Folder Include="User\" />

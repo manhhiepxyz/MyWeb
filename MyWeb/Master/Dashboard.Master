@@ -44,7 +44,7 @@
           <ul class="sidebar-nav">
             <li class="sidebar-header">Admin</li>
             <li class="sidebar-item">
-              <a href="#" class="sidebar-link collapsed">
+              <a href="<%= ResolveUrl("../Admin/ThongKe/ThongKeAdmin.aspx") %>" class="sidebar-link collapsed">
                 <i class="fa-solid fa-chart-line  pe-2"></i>Thống kê</a>
             </li>
               <li class="sidebar-item">
